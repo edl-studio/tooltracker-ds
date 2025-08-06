@@ -84,27 +84,76 @@
   padding-right: 8px !important;
 }
 
-/* Row hover effect */
+/* Custom hover class for Safari compatibility */
+.data-table-row-hover {
+  position: relative;
+  transition: background-color 0.2s ease;
+  /* Safari-specific fixes */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* Ensure proper hover behavior in Safari */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Force hardware acceleration */
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+}
+
+.data-table-row-hover:hover {
+  background-color: var(--background-color-container-hover) !important;
+}
+
+/* Mobile card hover support */
+.data-table-row-hover.rounded-2xs:hover {
+  background-color: var(--background-color-container-hover) !important;
+}
+
+/* Safari-compatible row hover effect */
 .table-fixed tbody tr {
   position: relative;
+  transition: background-color 0.2s ease;
+  /* Safari-specific fixes */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* Ensure proper hover behavior in Safari */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Force hardware acceleration */
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
 }
 
-.table-fixed tbody tr::after {
-  content: "";
-  position: absolute;
-  left: -48px;
-  right: -48px;
-  top: 0;
-  bottom: 0;
-  background-color: var(--background-color-container-hover);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
-  z-index: -1;
+/* Universal hover effect for all browsers */
+.table-fixed tbody tr:hover {
+  background-color: var(--background-color-container-hover) !important;
 }
 
-.table-fixed tbody tr:hover::after {
-  opacity: 1;
+/* Simple Safari hover fix */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .table-fixed tbody tr:hover {
+    background-color: var(--background-color-container-hover) !important;
+  }
+}
+
+/* Additional Safari-specific isolation */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .table-fixed tbody tr {
+    isolation: isolate;
+  }
+  
+  /* Ensure hover effect works properly with table layout in Safari */
+  .table-fixed tbody tr:hover {
+    /* Force proper hover rendering in Safari */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    /* Ensure hover effect extends to full row width */
+    position: relative;
+  }
+  
+  /* Fix for checkbox column hover effect */
+  .table-fixed tbody tr:hover td[data-column-id="select"] {
+    background-color: var(--background-color-container-hover) !important;
+  }
 }
 
 /* Keep thead sticky */
@@ -113,6 +162,35 @@
   top: 0;
   background: white;
   z-index: 1;
+  position: relative;
+}
+
+/* Single pseudo-element border for consistent rendering */
+.table-fixed thead::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: var(--border-color-strong);
+  /* Force hardware acceleration for consistent rendering */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* Ensure visibility in Safari */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Safari-specific fallback */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .table-fixed thead {
+    border-bottom: 2px solid var(--border-color-strong);
+  }
+  
+  .table-fixed thead::after {
+    display: none;
+  }
 }
 
 /* Loading state animations */

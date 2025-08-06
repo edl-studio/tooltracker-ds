@@ -3,18 +3,32 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "installCommand": "npm install",
+  "redirects": [
+    {
+      "source": "/storybook",
+      "destination": "/storybook/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/storybook/(.*)",
       "destination": "/storybook/$1"
     },
     {
-      "source": "/storybook",
-      "destination": "/storybook/index.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/storybook/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
   ]
 } 

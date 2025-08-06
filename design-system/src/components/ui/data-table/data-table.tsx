@@ -273,7 +273,7 @@ export function DataTable<TData, TValue>({
             return (
               <div
                 key={row.id}
-                className="relative rounded-2xs border border-weak bg-container hover:bg-flat transition-colors cursor-pointer"
+                className="relative rounded-2xs border border-weak bg-container data-table-row-hover transition-colors cursor-pointer"
                 onClick={() => onRowClick?.(row.original)}
               >
                 {mobileCardRenderer(row.original)}
@@ -466,7 +466,10 @@ export function DataTable<TData, TValue>({
                     return (
                       <TableHead 
                         key={header.id} 
-                        className={index === 0 ? "px-0" : ""}
+                        className={
+                          index === 0 ? "px-0" : 
+                          header.id === "category" || header.id === "assignedTo" ? "px-4" : ""
+                        }
                         data-column-id={header.id}
                         style={{ 
                           width: header.id === "select" 
@@ -504,7 +507,7 @@ export function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="group relative cursor-pointer hover:bg-flat"
+                    className="group relative cursor-pointer data-table-row-hover"
                     onClick={() => onRowClick?.(row.original)}
                   >
                     {row.getVisibleCells().map((cell, index) => (
